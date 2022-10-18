@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FreakingMatrix
 {
     class Chain
     {
-        private const int MAX_CHAIN_LENGTH = 11;
-        private List<Sign> signList = null;
+        private const int MAX_CHAIN_LENGTH = 13;
+
+
+        public readonly List<Sign> signList = null;
         private Sign headSign;
         public readonly int chainLength = new Random().Next(1, MAX_CHAIN_LENGTH);
 
@@ -22,7 +25,7 @@ namespace FreakingMatrix
 
         public void Descent(int step)
         {
-            Change();
+            ChangeSigns();
             signList.Add(new Sign(headSign.PosX,
                                           headSign.PosY + step,
                                           ((char)new Random().Next(0x0021, 0x007E)).ToString().ToUpper(),
@@ -40,7 +43,12 @@ namespace FreakingMatrix
             Print();
         }
 
-        private void Change()
+        public void RemoveStepByStep()
+        {
+            signList.Where(x => x.Color != ConsoleColor.Black);
+        }
+
+        private void ChangeSigns()
         {
             foreach (var sign in signList)
             {
